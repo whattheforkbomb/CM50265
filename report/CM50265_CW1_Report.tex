@@ -12,8 +12,8 @@
 
 %% --- %%
 
-\title{}
-\renewcommand\maketitlehookb{\centering \Large CM50265 - Report}
+\title{CM50265 - Assignment 1 - Age Estimation and Gender Classification}
+\renewcommand\maketitlehookb{\centering \Large Group Report}
 \date{\today}
 % \author{James Whiffing, ...}
 
@@ -21,9 +21,14 @@
 \pagenumbering{gobble}
 \thispagestyle{empty}
 \newgeometry{inner=0.2\textwidth,outer=0.2\textwidth}
-%TC:ignore
-\maketitle
 
+%TC:ignore
+\include{sections/coverpage}
+\clearpage
+\restoregeometry
+\newpage
+
+\maketitle
 \clearpage
 \restoregeometry
 \newpage
@@ -53,6 +58,9 @@
 
 
 \include{sections/introduction}
+\include{sections/ownCNN}
+\include{sections/pre-trainedCNN}
+\include{sections/summaryAndDiscussion}
 
 \newpage
 \bibliography{biblio}
