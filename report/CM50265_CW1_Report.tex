@@ -1,0 +1,66 @@
+\documentclass[a4paper,11pt]{article}
+
+%% Includes & Config %%
+
+\input{definitions}
+\usepackage{titling}
+\rmfamily
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+\graphicspath{{figures/}}
+
+%% --- %%
+
+\title{}
+\renewcommand\maketitlehookb{\centering \Large CM50265 - Report}
+\date{\today}
+% \author{James Whiffing, ...}
+
+\begin{document}
+\pagenumbering{gobble}
+\thispagestyle{empty}
+\newgeometry{inner=0.2\textwidth,outer=0.2\textwidth}
+%TC:ignore
+\maketitle
+
+\clearpage
+\restoregeometry
+\newpage
+
+\setcounter{page}{0}
+\pagenumbering{roman}
+\pagestyle{fancy}
+
+%% Content Lists %%
+
+\tableofcontents
+\clearpage
+\newpage
+\addcontentsline{toc}{section}{\listfigurename}
+\listoffigures
+\clearpage
+\newpage
+\addcontentsline{toc}{section}{\listtablename}
+\listoftables
+\clearpage
+\newpage
+%TC:endignore
+%% --- %%
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+
+\include{sections/introduction}
+
+\newpage
+\bibliography{biblio}
+
+\newpage
+\appendix
+%TC:ignore
+% Appendices here
+% %TC:endignore
+
+\end{document}
