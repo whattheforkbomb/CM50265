@@ -12,15 +12,14 @@
 
 %% --- %%
 
-\title{CM50265 - Assignment 1 - Age Estimation and Gender Classification}
-\renewcommand\maketitlehookb{\centering \Large Group Report}
+\title{CM50265 - Assignment 1 - Group 1 Report}
+\renewcommand\maketitlehookb{\centering \Large Age Estimation and Gender Classification CNN}
 \date{\today}
-% \author{James Whiffing, ...}
+\author{Daniel Davis, James Whiffing}
 
 \begin{document}
 \pagenumbering{gobble}
 \thispagestyle{empty}
-\newgeometry{inner=0.2\textwidth,outer=0.2\textwidth}
 
 %TC:ignore
 \include{sections/coverpage}
@@ -28,6 +27,7 @@
 \restoregeometry
 \newpage
 
+\newgeometry{inner=0.2\textwidth,outer=0.2\textwidth}
 \maketitle
 \clearpage
 \restoregeometry
@@ -56,19 +56,17 @@
 \setcounter{page}{1}
 \pagenumbering{arabic}
 
-
 \include{sections/introduction}
 \include{sections/ownCNN}
 \include{sections/pre-trainedCNN}
 \include{sections/summaryAndDiscussion}
 
-\newpage
-\bibliography{biblio}
+% \newpage
+% \bibliography{biblio}
 
 \newpage
 \appendix
 %TC:ignore
-% Appendices here
-% %TC:endignore
-
+\include{sections/appendix}
+%TC:endignore
 \end{document}
