@@ -35,3 +35,33 @@
 % 125/125 [==============================] - 47s 371ms/step - loss: 106.3928 - age_output_loss: 93.4850 - gender_output_loss: 0.1291 - age_output_mean_absolute_error: 6.9812 - gender_output_binary_accuracy: 0.9488 - val_loss: 140.9203 - val_age_output_loss: 112.3616 - val_gender_output_loss: 0.2856 - val_age_output_mean_absolute_error: 7.3017 - val_gender_output_binary_accuracy: 0.8881
 % Epoch 24/50
 %  125/125 [==============================] - 47s 377ms/step - loss: 102.8915 - age_output_loss: 89.4744 - gender_output_loss: 0.1342 - age_output_mean_absolute_error: 6.8606 - gender_output_binary_accuracy: 0.9452 - val_loss: 176.9170 - val_age_output_loss: 136.7507 - val_gender_output_loss: 0.4017 - val_age_output_mean_absolute_error: 8.1429 - val_gender_output_binary_accuracy: 0.8448
+
+\section{Pre-trained Model}
+\subsection{Architecture}
+For our finetuned model we used ResNet50 as our base. This is because it is a relatively fast,
+lightweight and high performing model. We used weights trained on imagenet as our initialisation.
+The output of this base model was fed into a global average pooling layer and then a branch
+ for each age and gender. Both branches used the same architecture as the dense layers in our 
+ model.  
+
+ \subsection{Training}
+ The finetuned model was trained in the same manner as our model, with the same losses, loss weights,
+ learning rate and optimizer. The model had a tendency to overfit quickly during training
+ so we used early stopping to halt training once the validation loss increased for three 
+ consecutive epochs. 
+ 
+ \subsection{Performance}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{ModelB_AgeLearning_TunedHyperParams.png}
+    \caption{\label{fig:ModelBPerformanceAge} The performance on age predicition for the finetuned model.}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{ModelB_GenderLearning_TunedHyperParams.png}
+    \caption{\label{fig:ModelBPerformanceGender} The performance on gender predicition for the finetuned model.}
+\end{figure}
