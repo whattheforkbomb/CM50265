@@ -40,6 +40,7 @@
 \subsection{Architecture}
 For our finetuned model we used ResNet50 as our base. This is because it is a relatively fast,
 lightweight and high performing model. We used weights trained on imagenet as our initialisation.
+These weights were frozen during training to speed up training time.
 The output of this base model was fed into a global average pooling layer and then a branch
  for each age and gender. Both branches used the same architecture as the dense layers in our 
  model.  
@@ -51,17 +52,36 @@ The output of this base model was fed into a global average pooling layer and th
  consecutive epochs. 
  
  \subsection{Performance}
+The trace of the final epoch is below.
+\begin{verbatim}
+    Epoch 24/50
+125/125 [==============================] 
+- 47s 377ms/step 
+- loss: 102.8915 
+- age_output_loss: 89.4744 
+- gender_output_loss: 0.1342 
+- age_output_mean_absolute_error: 6.8606 
+- gender_output_binary_accuracy: 0.9452 
+- val_loss: 176.9170 
+- val_age_output_loss: 136.7507 
+- val_gender_output_loss: 0.4017 
+- val_age_output_mean_absolute_error: 8.1429 
+- val_gender_output_binary_accuracy: 0.8448
+\end{verbatim}
 
+The finetuned model performed slightly worse than our model on both tasks on the validation data.
+It achieved an accuracy of 84\% on gender predciton and a mean squared error of 8.1 on age
+prediction. It also overfits slightly, achieving higher performance on the training data.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\textwidth]{ModelB_AgeLearning_TunedHyperParams.png}
-    \caption{\label{fig:ModelBPerformanceAge} The performance on age predicition for the finetuned model.}
+    \includegraphics[width=0.7\textwidth]{Model_B_AgeLearning.png}
+    \caption{\label{fig:ModelBPerformanceAge} The performance on age prediction for the finetuned model.}
 \end{figure}
 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\textwidth]{ModelB_GenderLearning_TunedHyperParams.png}
-    \caption{\label{fig:ModelBPerformanceGender} The performance on gender predicition for the finetuned model.}
+    \includegraphics[width=0.7\textwidth]{Model_B_GenderLearning.png}
+    \caption{\label{fig:ModelBPerformanceGender} The performance on gender prediction for the finetuned model.}
 \end{figure}

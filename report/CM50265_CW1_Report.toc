@@ -9,3 +9,4 @@
 \contentsline {subsection}{\numberline {2.1}Architecture}{5}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Training}{5}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}Performance}{5}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Summary and discussion}{7}{section.3}%

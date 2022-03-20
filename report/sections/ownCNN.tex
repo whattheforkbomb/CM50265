@@ -71,11 +71,13 @@ Data augmentation is performed to effectively increase the size of the dataset a
 used are rotaion, zoom, and horizontal flipping. The augmentations were performed on both training and validation data.
 
 \subsection{Performance}
-The output of the final training epoch is below.
+The trace of the final training epoch is below.
 
 \begin{verbatim}
     Epoch 50/50
-125/125 [==============================] - 41s 325ms/step - loss: 82.5588 
+125/125 [==============================] 
+- 41s 325ms/step 
+- loss: 82.5588 
 - age_output_loss: 55.1034 
 - gender_output_loss: 0.1627 
 - age_output_mean_absolute_error: 5.5780 
@@ -97,13 +99,13 @@ branch can be seen to overfit to a greater extent than the age branch.
 \begin{figure}
     \centering
     \includegraphics[width=0.7\textwidth]{ModelA_AgeLearning_TunedHyperParams.png}
-    \caption{\label{fig:ModelAPerformanceAge} The performance on age predicition for our model.}
+    \caption{\label{fig:ModelAPerformanceAge} The performance on age prediction for our model.}
 \end{figure}
 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.7\textwidth]{ModelA_GenderLearning_TunedHyperParams.png}
-    \caption{\label{fig:ModelAPerformanceGender} The performance on gender predicition for our model.}
+    \caption{\label{fig:ModelAPerformanceGender} The performance on gender prediction for our model.}
 \end{figure}
 

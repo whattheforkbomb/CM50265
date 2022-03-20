@@ -1,5 +1,5 @@
 \contentsline {figure}{\numberline {1}{\ignorespaces The architecture for our model.\relax }}{2}{figure.caption.5}%
-\contentsline {figure}{\numberline {2}{\ignorespaces The performance on age predicition for our model.\relax }}{3}{figure.caption.6}%
-\contentsline {figure}{\numberline {3}{\ignorespaces The performance on gender predicition for our model.\relax }}{4}{figure.caption.7}%
-\contentsline {figure}{\numberline {4}{\ignorespaces The performance on age predicition for the finetuned model.\relax }}{5}{figure.caption.8}%
-\contentsline {figure}{\numberline {5}{\ignorespaces The performance on gender predicition for the finetuned model.\relax }}{6}{figure.caption.9}%
+\contentsline {figure}{\numberline {2}{\ignorespaces The performance on age prediction for our model.\relax }}{3}{figure.caption.6}%
+\contentsline {figure}{\numberline {3}{\ignorespaces The performance on gender prediction for our model.\relax }}{4}{figure.caption.7}%
+\contentsline {figure}{\numberline {4}{\ignorespaces The performance on age prediction for the finetuned model.\relax }}{6}{figure.caption.8}%
+\contentsline {figure}{\numberline {5}{\ignorespaces The performance on gender prediction for the finetuned model.\relax }}{6}{figure.caption.9}%

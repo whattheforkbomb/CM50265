@@ -1,3 +1,14 @@
 
+\section{Summary and discussion}
+
+Both models overfit significantly despite measures to counteract it including L2 regularisation,
+dropout and data augmentation. This is likely due to the relatively small amount of training data.
+
+Our model performed better despite having a much simpler architecture and many fewer parameters.
+This is likely because it was specifically learning to predict age and gender whereas the finetuned
+model was trained on imagenet to calssify images as one of 1000 calsses. None of these classes
+are related to human faces so the power of the ResNet50 base model is applicable only to more
+generic image features in our case. If we had not frozen the weights it is likely the performance
+of our finetuned model would have been better than our own model.
 
 % Can improve with hyperparam tuner in keras
