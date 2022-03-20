@@ -180,6 +180,16 @@ INPUT /home/daniel/CM50265/report/sections/introduction.tex
 OUTPUT /home/daniel/CM50265/report/sections/ownCNN.aux
 INPUT /home/daniel/CM50265/report/sections/ownCNN.tex
 INPUT /home/daniel/CM50265/report/sections/ownCNN.tex
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT /home/daniel/CM50265/report/figures/ModelA_Graph.png
+INPUT /home/daniel/CM50265/report/figures/ModelA_Graph.png
+INPUT /home/daniel/CM50265/report/figures/ModelA_Graph.png
+INPUT /home/daniel/CM50265/report/figures/ModelA_AgeLearning_TunedHyperParams.png
+INPUT /home/daniel/CM50265/report/figures/ModelA_AgeLearning_TunedHyperParams.png
+INPUT /home/daniel/CM50265/report/figures/ModelA_AgeLearning_TunedHyperParams.png
+INPUT /home/daniel/CM50265/report/figures/ModelA_GenderLearning_TunedHyperParams.png
+INPUT /home/daniel/CM50265/report/figures/ModelA_GenderLearning_TunedHyperParams.png
+INPUT /home/daniel/CM50265/report/figures/ModelA_GenderLearning_TunedHyperParams.png
 OUTPUT /home/daniel/CM50265/report/sections/pre-trainedCNN.aux
 INPUT /home/daniel/CM50265/report/sections/pre-trainedCNN.tex
 INPUT /home/daniel/CM50265/report/sections/pre-trainedCNN.tex
@@ -189,7 +199,6 @@ INPUT /home/daniel/CM50265/report/sections/summaryAndDiscussion.tex
 OUTPUT /home/daniel/CM50265/report/sections/appendix.aux
 INPUT /home/daniel/CM50265/report/sections/appendix.tex
 INPUT /home/daniel/CM50265/report/sections/appendix.tex
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT /home/daniel/CM50265/report/figures/ModelA_AgeLearning_FCNDropout_BothGreyScale_NoRegularisation.png
 INPUT /home/daniel/CM50265/report/figures/ModelA_AgeLearning_FCNDropout_BothGreyScale_NoRegularisation.png
 INPUT /home/daniel/CM50265/report/figures/ModelA_AgeLearning_FCNDropout_BothGreyScale_NoRegularisation.png
