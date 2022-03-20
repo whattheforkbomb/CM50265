@@ -18,6 +18,7 @@ keras = "*"
 pydot = "*"
 graphviz = "*"
 tensorflow-gpu = "*"
+jupyter-http-over-ws = "*"
 
 [dev-packages]
 
