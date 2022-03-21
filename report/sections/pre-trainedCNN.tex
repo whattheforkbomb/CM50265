@@ -54,7 +54,12 @@ The pre-trained model was trained in the same manner as Model A, with the same l
 
 Unfortunately we found the model started heavily over-fitting after a number of epochs.\\
 If left to train for longer it would continue to improve training accuracy, however validation would not, and occasionally get worse.
-As a form of hyper-parameter training we implemented a stop early callback which would end the training and retain the best weights (with respect to validation loss output) if the validation loss failed to improve over 5 consecutive epochs.
+As a form of hyper-parameter training we implemented a stop early callback which would end the training and retain the best weights (with respect to validation loss output) if the validation loss failed to improve over 5 consecutive epochs.\\
+The trace of the training when early stopping was performed can be found in \autoref{appendix:ModelB_early_stopping}, wherein there was no improvement in validation loss from epoch 26-30, and as such the model weights would be set to those obtained in epoch 25.
+
+\subsubsection{Data Preparation}
+The dataset was processed in the same manner as for training Model A.\\
+An \verb|ImageDataGenerator| was created, and used to create a data generator for both training and validation images.
 
 \begin{optional}
     \subsubsection{Hyper-Parameter Tuning}
@@ -68,44 +73,50 @@ As a form of hyper-parameter training we implemented a stop early callback which
         \item Dropout rate (for both branches)
         \item Regularisation (for both branches)
     \end{enumerate}
-    Once this completed, we rebuilt and trained the model with the tuned hyper-params fixed.
+    Once this completed, we rebuilt and trained the model with the tuned hyper-params fixed.\\
+    \begin{notes}
+        This could be thrown into a table in the appendix if we want to ref we did tuning without wasting space on the specific params?
+    \end{notes}
 \end{optional}
 
+
 \subsection{Performance}
-The trace of the final epoch is below.
-\begin{notes}
-    Pending final training\dots\\
-    Should this be placed in appendix, but key values (gender accuracy and age MAE) be provided, to discuss along with graphs.
-\end{notes}
-\begin{verbatim}
-    Epoch 24/50
-125/125 [==============================] 
-- 47s 377ms/step 
-- loss: 102.8915 
-- age_output_loss: 89.4744 
-- gender_output_loss: 0.1342 
-- age_output_mean_absolute_error: 6.8606 
-- gender_output_binary_accuracy: 0.9452 
-- val_loss: 176.9170 
-- val_age_output_loss: 136.7507 
-- val_gender_output_loss: 0.4017 
-- val_age_output_mean_absolute_error: 8.1429 
-- val_gender_output_binary_accuracy: 0.8448
-\end{verbatim}
-
-The pre-trained model performed slightly worse than our model on both tasks on the validation data.
-It achieved an accuracy of 84\% on gender prediction and a mean squared error of 8.1 on age
-prediction. It also over-fits slightly, achieving higher performance on the training data.
-
-\begin{figure}
+Due to the early stopping implemented for Model B's training, the final Epoch is not the one from which the weights will be saved.\\
+They will in-fact be saved from Epoch 25, since it failed to improve on the validation loss for 5 subsequent Epochs.\\
+From Epoch 25, we can see Model B got the following performance:
+\begin{table}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{Model_B_AgeLearning.png}
-    \caption{\label{fig:ModelBPerformanceAge} The performance on age prediction for the pre-trained model.}
-\end{figure}
+    \begin{tabular}[h]{r|l|l}
+        \hline
+        Metric & Training & Validation \\
+        \hline
+        Age Mean Absolute Error & 6.6296 & 6.4352 \\
+        \hline
+        Gender Binary Accuracy & 0.9495 & 0.8952 \\
+        \hline
+    \end{tabular}
+    \caption{\label{tab:ModelB_Performance}}
+\end{table}
+For the full training output for epoch 25, please see \autoref{appendix:modelB_best_epoch}.
+For the training output for the final epochs (from the best epoch till the last), please see \autoref{appendix:modelB_early_stopping_epochs}.
 
+Looking at the learning curves (shown in \autoref{fig:ModelBPerformanceAge}) of the age MAE for Model B, you can see very little over-fitting, with both lines sticking very close together with some minor spikes from the validation curve.\\
+Unfortunately the gender accuracy shown in \autoref{fig:ModelBPerformanceGender} highlights a not insignificant amount of over-fitting, where validation accuracy always being at least 2\% more than the training accuracy, and starting to diverge from ~epoch 10.\\
+\textit{The graphs within \autoref{fig:ModelBPerformance} }\\
 
-\begin{figure}
+\begin{figure}[h!]
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[height=0.45\textheight]{Model_B_AgeLearning_hp_tuned.png}
+    \caption{\label{fig:ModelBPerformanceAge}The performance on age prediction for the pre-trained model.}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[height=0.45\textheight]{Model_B_GenderLearning_hp_tuned.png}
+        \caption{\label{fig:ModelBPerformanceGender}The performance on gender prediction for the pre-trained model.}    
+    \end{subfigure}
     \centering
-    \includegraphics[width=0.7\textwidth]{Model_B_GenderLearning.png}
-    \caption{\label{fig:ModelBPerformanceGender} The performance on gender prediction for the pre-trained model.}
+    \caption{
+        \label{fig:ModelBPerformance}Learning curves observed training Model B. \textit{Graphs show 30 epochs, however the weights are actually saved for epoch 25.}
+        }
 \end{figure}

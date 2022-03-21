@@ -1,7 +1,7 @@
 
 \section{Model A - CNN Created From Scratch}
 \subsection{Architecture}
-Our model architecture is shown in Fig \autoref{fig:ModelAGraph}. 
+Our model architecture is shown in \autoref{fig:ModelAGraph}. 
 It consists of a shared trunk with two convolutional layers with 64 3x3 kernels and relu activation followed by a 2x2 maxpooling layer and a batchnorm layer. 
 It then has a convolutional layer with 128 3x3 kernels followed by a 2x2 maxpooling layer. 
 The output of this trunk is sent to different branches for age and gender prediction. 
@@ -21,7 +21,8 @@ The first and second layers use relu activation and the final layer uses no acti
 \begin{figure}[h!]
     \centering
     \includegraphics[height=0.95\textheight]{ModelA_Graph.png}
-    \caption{\label{fig:ModelAGraph} The architecture for Model A.}
+    \caption{The architecture for Model A.}
+    \label{fig:ModelAGraph}
 \end{figure}
 
 This architecture was chosen because the first layers of a CNN usually extract generic low-level features which are common to many images. 
@@ -52,14 +53,13 @@ The dense layers also employ dropout and L2 regularisation to reduce over-fittin
 \end{optional}
 
 \subsection{Training}
-The model is trained to minimize a weighted average of losses from each branch. 
+The model is trained to minimize a weighted average of losses from each branch. \\
 The loss for the gender prediction output is binary cross entropy because it is a binary classification problem and the loss for the age prediction is mean squared error because it is a regression problem. 
-Mean squared error was chosen over mean absolute error in order to penalise larger errors more than smaller ones. 
-The average loss is weighted 1:100 towards gender prediction because the average gender losses seen during training were approximately 50 times smaller than the age losses.
-This weighting was chosen so the model attempts to balance its training objectives without over-prioritising either age or gender. 
-The model uses the Adam optimizer with a exponentially decaying learning rate. 
-
-The model is trained for a total of 50 epochs.
+Mean squared error was chosen over mean absolute error in order to penalise larger errors more than smaller ones.\\
+The average loss is weighted 1:100 towards gender prediction because the average gender losses seen during training were much smaller than the age losses (due to it being a binary problem, and the age loss being a squared value).
+This weighting was chosen so the model attempts to balance its training objectives without over-prioritising either age or gender.\\
+The model uses the Adam optimizer with a exponentially decaying learning rate.\\
+The model is trained for a total of 50 epochs.\\
 
 \begin{optional}
     \subsubsection{Hyper-Parameter Tuning}
@@ -77,12 +77,15 @@ The model is trained for a total of 50 epochs.
         \item Dropout rate (for both branches)
         \item Regularisation (for both branches)
     \end{enumerate}
-    An output of the tuning can b found in the appendix here \autoref{appendix:Model_A_Hyper-Parameter_Tuning}
+    An output of the tuning can be found in \autoref{appendix:Model_A_Hyper-Parameter_Tuning}
 
-    Once this completed, we rebuilt and trained the model with the tuned hyper-params fixed.
+    Once this completed, we rebuilt and trained the model with the tuned hyper-params fixed.\\
+    \begin{notes}
+        This could be thrown into a table in the appendix if we want to ref we did tuning without wasting space on the specific params?
+    \end{notes}
 \end{optional}
 
-\subsection{Data}
+\subsubsection{Data Preparation}
 The model is trained on data from the dataset provided. The data is preprocessed using the Keras \verb|ImageDataGenerator| to effectively increase the size of the dataset and prevent over-fitting. 
 The augmentations used are rotation, zoom, and horizontal flipping.\\
 To split the dataset into the Training and Validation datasets, the \verb|ImageDataGenerator| was provided 0.2 as the validation split. We then called the \verb|flow_from_dataframe| method on the generator, passing in the dataframe containing the image paths and labels, and provided which dataset should be created, e.g. training or validation.
@@ -98,7 +101,7 @@ The gender branch can be seen to over-fit to a greater extent than the age branc
 
 The trace of the final training epoch is below.\\
 \begin{verbatim}
-    Epoch 50/50
+Epoch 50/50
 125/125 [==============================] 
 - 41s 325ms/step 
 - loss: 82.5588 
@@ -117,12 +120,13 @@ The trace of the final training epoch is below.\\
     Can just include gender binary accuracy and age MAE for both training and validation to summarize performance and discuss the graphs?
 \end{notes}
 \begin{figure}[h]
-    \centering
     \begin{subfigure}{\textwidth}
+        \centering
         \includegraphics[height=0.45\textheight]{ModelA_AgeLearning_TunedHyperParams.png}
         \caption{\label{fig:ModelAPerformanceAge} The performance on age prediction for our model.}
     \end{subfigure}
     \begin{subfigure}{\textwidth}
+        \centering
         \includegraphics[height=0.45\textheight]{ModelA_GenderLearning_TunedHyperParams.png}
         \caption{\label{fig:ModelAPerformanceGender} The performance on gender prediction for our model.}
     \end{subfigure}

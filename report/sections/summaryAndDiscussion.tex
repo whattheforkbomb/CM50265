@@ -1,19 +1,22 @@
 \section{Summary and Conclusions}
-Both models over-fit significantly (with validation loss being ~5\% worse than training loss once it began to plateau) despite measures to counteract it including L2 regularisation,
-dropout and data augmentation. This is likely due to the relatively small amount of training data.
+Though Model A produced better values for the age Mean Square Error during training, it was out-performed by Model B during validation (for both age and gender loss metrics), and during training when viewing the gender Binary Accuracy.
 
-Model B performed slightly worse than Model A, and suffered from over-fitting in particular when trained for the same number of epochs.\\
-Given the known performance of the ResNet50 model and the number of convolutions \& layers it contains, you would expect the feature extraction capabilities to supersede that of Model A.\\
-Given this you'd expect Model B to out perform Model A.
-Though the performance is close (as was the disparity between training and validation loss), Model B actually performed slightly worse than Model A.
-Below are the reasons we believe this to be the case:
-\begin{enumerate}
-    \item \textbfit{Lack of Hyper-Parameter tuning / identification:}\\
-    When we left Model B to continue training beyond the epoch that triggered the early-stopping callback, the model was able to continue improving its training loss reduction much faster than that of Model A, however the validation loss either failed to improve, or in-fact worsened.\\
-    Given this it is possible that the hyper-parameters for Model B could be sub-optimal, resulting in the model over-fitting.
-    To resolve this we could perform the same hyper-parameter tuning we did for Model A, though adjusted to suit the hyper-parameters we identify for Model B.
+Both models were observed to suffer from over-fitting to some degree.
+Model A suffered over-fitting for both branches, while Model B showed over-fitting just for the gender branch.\\
+This is evidenced by the diverging of the learning curves between the training and validation metrics, despite measures to counteract over-fitting, including: L2 regularisation, dropout, and data augmentation.
 
-    \item \textbfit{Model A was purpose built:}\\
-    Despite having a much simpler architecture and many fewer parameters, Model A was built to solely predict age and gender. Model B by comparison was trained on ImageNet to classify images as one of 1000 classes. None of these classes are related to human faces so the power of the ResNet50 base model is applicable only to more generic image features in our case.\\
-    Although we did unfreeze the ResNet50 model weights, with the intention of allowing the ResNet50 convolution layer weights to be optimised for the task at hand, it may simply be the the model itself doesn't lend itself to extracting the features we need.  
-\end{enumerate}
+Given the top-1 and top-5 accuracy observed from ResNet50 on the ImageNet dataset, you'd presume that it should handedly outperform a much smaller/simpler model, since it has been trained to extract the best features for a 1000s of classes.\\
+Below are the reasons we believe the performance was so close.
+
+\textbfit{Simple vs Complex}\\
+Despite having a much simpler architecture and many fewer parameters, Model A was built to solely predict age and gender. Model B by comparison was trained on ImageNet to classify images as from 1000's of classes. 
+None of these classes are related to human faces so the power of the ResNet50 base model is applicable only to more generic image features in our case.\\
+Although we did unfreeze the ResNet50 model weights, with the intention of allowing the ResNet50 convolution layer weights to be optimised for the task at hand, it may simply be the the model itself doesn't lend itself to extracting the features we need.\\
+We can see that Model B seemed to 'learn' faster, shown by the initial age and gender metrics being better, and then converging much sooner than Model A.\\
+This could indicate that ResNet50 convolutions layers allowed better feature extraction, but there was some other limitation preventing either model from getting better performance without over-fitting.
+
+\textbfit{Lack Of Data Diversity / Small Dataset Size}\\
+With the provided dataset size and diversity, it is possible that the models are unable to learn enough general features from the data to aptly predict the age and gender.
+
+This could also explain the over-fitting issues observed on both models, since the models could be learning the training data too specifically due to a lack of diversity.\\
+We could simplify the models, however there were several hyper-parameters tied to model complexity (convolution layer feature depth, FCN layer unit count) which were tuned to their specific values based on them producing better validation loss.\\
