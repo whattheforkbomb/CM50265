@@ -37,28 +37,57 @@
 %  125/125 [==============================] - 47s 377ms/step - loss: 102.8915 - age_output_loss: 89.4744 - gender_output_loss: 0.1342 - age_output_mean_absolute_error: 6.8606 - gender_output_binary_accuracy: 0.9452 - val_loss: 176.9170 - val_age_output_loss: 136.7507 - val_gender_output_loss: 0.4017 - val_age_output_mean_absolute_error: 8.1429 - val_gender_output_binary_accuracy: 0.8448
 
 \section{Model B - Using Pre-Trained CNN}
-\subsection{Pre-Trained Model Selection}
-Used ResNet50, as relatively small, yet very accurate with respect to top 5 rating on ImageNet.
-
-It was loaded with the weights from ImageNet, and then the convolution layers frozen, such that they would not be adjusted during training.
-
 \subsection{Architecture}
+For our fine-tuned model we used ResNet50 as our base. This is because it is a relatively fast,
+lightweight and high performing model. We used weights trained on ImageNet as our initialisation.
+These weights were frozen during training to speed up training time.
+The output of this base model was fed into a global average pooling layer and then a branch for each age and gender. Both branches used the same architecture as the dense layers in our model.  
 \begin{figure}[h]
     \centering
     \includegraphics[height=0.5\textheight]{ModelBGraph_sample_simplified_dropouts_truncated.png}
 \end{figure}
-Following the ResNet output, we perform a global pool (rather than flatten as it didn't seem to learn) and created two FCN branches from this for the gender and age predictions.
-Both branches utilised dropout weights.
-
-Unfortunately we find the model started heavily over-fitting during training after a some number is epochs.
-If left to train for longer it would continue to improve training accuracy, however validation would not, and occasionally get worse.
-So as a form of hyper-parameter training we implemented a stop early callback which would end the training and retain the best weights (with respect to validation loss output) if the validation loss failed to improve over 3 epochs.
 
 \subsubsection{Over-Fitting Prevention}
-
+Unfortunately we found the model started heavily over-fitting during training after a number of epochs.
+If left to train for longer it would continue to improve training accuracy, however validation would not, and occasionally get worse.
+So as a form of hyper-parameter training we implemented a stop early callback which would end the training and retain the best weights (with respect to validation loss output) if the validation loss failed to improve over 3 consecutive epochs.
 
 \subsection{Training}
+The fine-tuned model was trained in the same manner as our model, with the same losses, loss weights,
+learning rate and optimizer. 
 
 
 \subsection{Performance}
+The trace of the final epoch is below.
+\begin{verbatim}
+    Epoch 24/50
+125/125 [==============================] 
+- 47s 377ms/step 
+- loss: 102.8915 
+- age_output_loss: 89.4744 
+- gender_output_loss: 0.1342 
+- age_output_mean_absolute_error: 6.8606 
+- gender_output_binary_accuracy: 0.9452 
+- val_loss: 176.9170 
+- val_age_output_loss: 136.7507 
+- val_gender_output_loss: 0.4017 
+- val_age_output_mean_absolute_error: 8.1429 
+- val_gender_output_binary_accuracy: 0.8448
+\end{verbatim}
 
+The fine-tuned model performed slightly worse than our model on both tasks on the validation data.
+It achieved an accuracy of 84\% on gender prediction and a mean squared error of 8.1 on age
+prediction. It also over-fits slightly, achieving higher performance on the training data.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{Model_B_AgeLearning.png}
+    \caption{\label{fig:ModelBPerformanceAge} The performance on age prediction for the fine-tuned model.}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{Model_B_GenderLearning.png}
+    \caption{\label{fig:ModelBPerformanceGender} The performance on gender prediction for the fine-tuned model.}
+\end{figure}
