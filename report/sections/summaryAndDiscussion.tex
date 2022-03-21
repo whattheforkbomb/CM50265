@@ -1,19 +1,6 @@
 \section{Summary and Conclusions}
-Both models over-fit significantly (with validation loss being ~5\% worse than training loss once it began to plateau) despite measures to counteract it including L2 regularisation,
+Both model perform well, achieving good accuracy and low mean absolute error scores on our validation data.
+Both models over-fit significantly despite measures to counteract it including L2 regularisation,
 dropout and data augmentation. This is likely due to the relatively small amount of training data.
 
-Model B performed slightly worse than Model A, and suffered from over-fitting in particular when trained for the same number of epochs.\\
-Given the known performance of the ResNet50 model and the number of convolutions \& layers it contains, you would expect the feature extraction capabilities to supersede that of Model A.\\
-Given this you'd expect Model B to out perform Model A.
-Though the performance is close (as was the disparity between training and validation loss), Model B actually performed slightly worse than Model A.
-Below are the reasons we believe this to be the case:
-\begin{enumerate}
-    \item \textbfit{Lack of Hyper-Parameter tuning / identification:}\\
-    When we left Model B to continue training beyond the epoch that triggered the early-stopping callback, the model was able to continue improving its training loss reduction much faster than that of Model A, however the validation loss either failed to improve, or in-fact worsened.\\
-    Given this it is possible that the hyper-parameters for Model B could be sub-optimal, resulting in the model over-fitting.
-    To resolve this we could perform the same hyper-parameter tuning we did for Model A, though adjusted to suit the hyper-parameters we identify for Model B.
-
-    \item \textbfit{Model A was purpose built:}\\
-    Despite having a much simpler architecture and many fewer parameters, Model A was built to solely predict age and gender. Model B by comparison was trained on ImageNet to classify images as one of 1000 classes. None of these classes are related to human faces so the power of the ResNet50 base model is applicable only to more generic image features in our case.\\
-    Although we did unfreeze the ResNet50 model weights, with the intention of allowing the ResNet50 convolution layer weights to be optimised for the task at hand, it may simply be the the model itself doesn't lend itself to extracting the features we need.  
-\end{enumerate}
+Model B performs slightly better than Model A. Model B suffered from worse over-fitting on gender but almost none on age. Better performance from model B was expected because it is able to utilise the feature extraction capabilities of ResNet50, a significantly more advanced model than our own. However the perfomance improvement is small. We have several hypotheses to explain this. The first is that our model is specifically designed for age and gender prediction, having a dedicated branch for each task allowing it to extract features more specific to the tasks. ImageNet does not contain classes related to human faces so the features it extracts may be too generic to provide significant performance improvements over our dedicated model. Additionally it is possible that there is simply not enough information in our training data to achieve higher perfomance. The size of the training set is relatively small and age and gender can be difficult to predict in some cases even for humans.

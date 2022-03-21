@@ -15,22 +15,10 @@
 % Basically a verbose contents page
 
 \section{Introduction}
-This report documents the creation of two CNN models which predict the age and gender of people based on an image (128px x 128px) of their face.\\
-This was performed as part of assignment 1 for the University of Bath Machine Learning unit: CM50265.
+This report documents the creation of two CNN models which predict the age and gender of people based on an image (128px x 128px) of their face. The first model was created from scratch and learns entirely from the training data. The second is a finetuned model using a base trained on ImageNet. This base is combined with new output layers and retrained to predict age and gender. The perfomance of these models is analysed and compared.
 
-\begin{optional}
-    \subsection{Development}
-    Both of the CNN models were developed using Python 3 and Keras. Once trained, the models were saved; links to the models can be found on the cover-page for this report.\\
-    Development was performed using Google Colab, using a mixture of free cloud compute time (utilizing GPU resources) and running locally on our own machines. 
-\end{optional}
+
+Both of the CNN models were developed using Python 3 and Keras. Once trained, the models were saved; links to the models can be found on the cover-page for this report.\\
+Development was performed using Google Colab, using a mixture of free cloud compute time (utilizing GPU resources) and running locally on our own machines. 
+
     
-    \subsection{Report Structure}
-We shall begin by discussing the development of 'Model A', a CNN model built from scratch by ourselves.\\
-This shall entail an overview of the final model architecture, the means through which it was trained, and a short summary of it's performance.\\
-This section will include information on hyper-parameter identification and tuning, model adjustments made to reduce over-fitting, and how the provided dataset was augmented.\\
-
-Following this we will discuss the development of 'Model B', a CNN model built upon an existing model trained on ImageNet.\\
-As with the prior section, we shall provide an overview of the final model architecture, the means through which it was trained, and a short summary of it's performance.\\
-This section will also include information on hyper-parameter identification and tuning, and model adjustments made to reduce over-fitting.\\
-
-The report will then be concluded with a summary which will compare the two models.

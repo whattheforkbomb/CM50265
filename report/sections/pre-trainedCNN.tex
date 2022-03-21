@@ -39,10 +39,10 @@
 \section{Model B - Using Pre-Trained CNN}
 \subsection{Architecture}
 For our pre-trained model we used ResNet50 as our base. This is because it is a relatively fast, lightweight and high performing model (with respect to ImageNet top 5 rating).\\
-We used weights trained on ImageNet as our initial weights, since most of them should be ideal for extracting general features from the images.
-These weights were however not frozen, as we wanted the model to be able to be able to make adjustments during training to better suit features that were most optimal for predicting age and gender.\\
-The output of this base model was then fed into 2 branches (one for gender, the other for age).
-Each would perform an additional padded convolution, before being flattened and passed on towards their own FCN layers (with one output layer and 2 hidden layers).
+We used weights trained on ImageNet as our initial weights.
+These weights were not frozen in order to allow the model to learn features specific to age and gender prediction.\\
+The output of this base model is fed into 2 branches (one for gender, the other for age).
+Each performs an additional padded convolution, before being flattened and passed on towards their own FCN layers (with one output layer and 2 hidden layers).
 All the FCN Dense layers made use of dropout and regularisation to reduce over-fitting.
 \begin{figure}[h]
     \centering
@@ -50,62 +50,61 @@ All the FCN Dense layers made use of dropout and regularisation to reduce over-f
 \end{figure}
 
 \subsection{Training}
-The pre-trained model was trained in the same manner as Model A, with the same losses, loss weights, learning rate and optimizer. 
+The pre-trained model was trained in the same manner as Model A, with the same losses, loss weights, and optimizer. 
 
-Unfortunately we found the model started heavily over-fitting after a number of epochs.\\
-If left to train for longer it would continue to improve training accuracy, however validation would not, and occasionally get worse.
-As a form of hyper-parameter training we implemented a stop early callback which would end the training and retain the best weights (with respect to validation loss output) if the validation loss failed to improve over 5 consecutive epochs.
+To limit overfitting a stop early callback was used to end training if the validation loss failed to improve over 5 consecutive epochs.
 
-\begin{optional}
-    \subsubsection{Hyper-Parameter Tuning}
-    Hyper-Parameters were tuned in the same manner as for Model A.\\
-    The difference being the hyper-parameters tuned were:
-    \begin{enumerate}
-        \item Initial Learning rate
-        \item Flatten Vs Global Pooling: whether to flatten the 3D output from the final convolution layers to get a 1 x N*M*M (where N is the feature depth, and M is the kernel size), or to average across all the features to get a 1xN vector (N is the feature depth).
-        \item Feature depth of final convolution layer (for both branches)
-        \item Number of Units for first FCN layer (for both branches)
-        \item Dropout rate (for both branches)
-        \item Regularisation (for both branches)
-    \end{enumerate}
-    Once this completed, we rebuilt and trained the model with the tuned hyper-params fixed.
-\end{optional}
+Hyper-Parameters were tuned in the same manner as for Model A.\\
+Hyper-parameters tuned were:
+\begin{enumerate}
+    \item Initial Learning rate
+    \item Flatten Vs Global Pooling: whether to flatten the 3D output from the final convolution layers
+    \item Feature depth of final convolution layer 
+    \item Number of Units for first FCN layer 
+    \item Dropout rate
+    \item Regularisation 
+\end{enumerate}
+Once tuning completed, we rebuilt and trained the model with the tuned hyper-params fixed.
+
 
 \subsection{Performance}
 The trace of the final epoch is below.
-\begin{notes}
-    Pending final training\dots\\
-    Should this be placed in appendix, but key values (gender accuracy and age MAE) be provided, to discuss along with graphs.
-\end{notes}
+
 \begin{verbatim}
-    Epoch 24/50
+Epoch 31/50
 125/125 [==============================] 
-- 47s 377ms/step 
-- loss: 102.8915 
-- age_output_loss: 89.4744 
-- gender_output_loss: 0.1342 
-- age_output_mean_absolute_error: 6.8606 
-- gender_output_binary_accuracy: 0.9452 
-- val_loss: 176.9170 
-- val_age_output_loss: 136.7507 
-- val_gender_output_loss: 0.4017 
-- val_age_output_mean_absolute_error: 8.1429 
-- val_gender_output_binary_accuracy: 0.8448
+- 37s 296ms/step 
+- loss: 159.7228 
+- age_output_loss: 106.7853 
+- gender_output_loss: 0.1204 
+- age_output_mean_absolute_error: 7.3058 
+- gender_output_binary_accuracy: 0.9507 
+- val_loss: 154.9256 
+- val_age_output_loss: 86.5945 
+- val_gender_output_loss: 0.3250 
+- val_age_output_mean_absolute_error: 6.4584 
+- val_gender_output_binary_accuracy: 0.8871
+    
 \end{verbatim}
 
-The pre-trained model performed slightly worse than our model on both tasks on the validation data.
-It achieved an accuracy of 84\% on gender prediction and a mean squared error of 8.1 on age
-prediction. It also over-fits slightly, achieving higher performance on the training data.
+The pre-trained model performed slightly better than our model on both tasks on the validation data.
+It achieved an accuracy of 89\% on gender prediction and a mean squared error of 6.5 on age
+prediction. It can be seen in \autoref{fig:ModelBPerformance} to overfit on gender prediction but not on age prediction.
 
-\begin{figure}
+
+\begin{figure}[h]
     \centering
-    \includegraphics[width=0.7\textwidth]{Model_B_AgeLearning.png}
-    \caption{\label{fig:ModelBPerformanceAge} The performance on age prediction for the pre-trained model.}
-\end{figure}
-
-
-\begin{figure}
-    \centering
+    \begin{subfigure}{\textwidth}
+        \centering
+        \includegraphics[width=0.7\textwidth]{Model_B_AgeLearning.png}
+        \caption{\label{fig:ModelBPerformanceAge} The performance on age prediction for the pre-trained model.}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \centering
     \includegraphics[width=0.7\textwidth]{Model_B_GenderLearning.png}
     \caption{\label{fig:ModelBPerformanceGender} The performance on gender prediction for the pre-trained model.}
+    \end{subfigure}
+    \label{fig:ModelBPerformance}
+    \caption{Learning curves observed training Model B}
 \end{figure}
+
