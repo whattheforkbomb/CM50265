@@ -193,6 +193,9 @@ INPUT /home/daniel/CM50265/report/figures/ModelA_GenderLearning_TunedHyperParams
 OUTPUT /home/daniel/CM50265/report/sections/pre-trainedCNN.aux
 INPUT /home/daniel/CM50265/report/sections/pre-trainedCNN.tex
 INPUT /home/daniel/CM50265/report/sections/pre-trainedCNN.tex
+INPUT /home/daniel/CM50265/report/figures/ModelBGraph_sample_simplified_dropouts_truncated.png
+INPUT /home/daniel/CM50265/report/figures/ModelBGraph_sample_simplified_dropouts_truncated.png
+INPUT /home/daniel/CM50265/report/figures/ModelBGraph_sample_simplified_dropouts_truncated.png
 INPUT /home/daniel/CM50265/report/figures/Model_B_AgeLearning.png
 INPUT /home/daniel/CM50265/report/figures/Model_B_AgeLearning.png
 INPUT /home/daniel/CM50265/report/figures/Model_B_AgeLearning.png
@@ -226,12 +229,9 @@ INPUT /home/daniel/CM50265/report/figures/ModelA_GenderLearning_FCNDropout_Gende
 INPUT /home/daniel/CM50265/report/figures/ModelAGraph_sample.png
 INPUT /home/daniel/CM50265/report/figures/ModelAGraph_sample.png
 INPUT /home/daniel/CM50265/report/figures/ModelAGraph_sample.png
-INPUT /home/daniel/CM50265/report/figures/ModelAGraph_sample_GreyscaleGenderBranch.png
-INPUT /home/daniel/CM50265/report/figures/ModelAGraph_sample_GreyscaleGenderBranch.png
-INPUT /home/daniel/CM50265/report/figures/ModelAGraph_sample_GreyscaleGenderBranch.png
-INPUT /home/daniel/CM50265/report/figures/ModelAGraph_sample_GreyscaleBothBranches.png
-INPUT /home/daniel/CM50265/report/figures/ModelAGraph_sample_GreyscaleBothBranches.png
-INPUT /home/daniel/CM50265/report/figures/ModelAGraph_sample_GreyscaleBothBranches.png
+INPUT /home/daniel/CM50265/report/figures/HyperParameter_Tuning.png
+INPUT /home/daniel/CM50265/report/figures/HyperParameter_Tuning.png
+INPUT /home/daniel/CM50265/report/figures/HyperParameter_Tuning.png
 INPUT /home/daniel/CM50265/report/CM50265_CW1_Report.aux
 INPUT /home/daniel/CM50265/report/sections/coverpage.aux
 INPUT /home/daniel/CM50265/report/sections/coverpage.aux
