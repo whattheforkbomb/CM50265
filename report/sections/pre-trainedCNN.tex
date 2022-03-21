@@ -38,27 +38,45 @@
 
 \section{Model B - Using Pre-Trained CNN}
 \subsection{Architecture}
-For our fine-tuned model we used ResNet50 as our base. This is because it is a relatively fast,
-lightweight and high performing model. We used weights trained on ImageNet as our initialisation.
-These weights were frozen during training to speed up training time.
-The output of this base model was fed into a global average pooling layer and then a branch for each age and gender. Both branches used the same architecture as the dense layers in our model.  
+For our pre-trained model we used ResNet50 as our base. This is because it is a relatively fast, lightweight and high performing model (with respect to ImageNet top 5 rating).\\
+We used weights trained on ImageNet as our initial weights, since most of them should be ideal for extracting general features from the images.
+These weights were however not frozen, as we wanted the model to be able to be able to make adjustments during training to better suit features that were most optimal for predicting age and gender.\\
+The output of this base model was then fed into 2 branches (one for gender, the other for age).
+Each would perform an additional padded convolution, before being flattened and passed on towards their own FCN layers (with one output layer and 2 hidden layers).
+All the FCN Dense layers made use of dropout and regularisation to reduce over-fitting.
 \begin{figure}[h]
     \centering
     \includegraphics[height=0.5\textheight]{ModelBGraph_sample_simplified_dropouts_truncated.png}
 \end{figure}
 
-\subsubsection{Over-Fitting Prevention}
-Unfortunately we found the model started heavily over-fitting during training after a number of epochs.
-If left to train for longer it would continue to improve training accuracy, however validation would not, and occasionally get worse.
-So as a form of hyper-parameter training we implemented a stop early callback which would end the training and retain the best weights (with respect to validation loss output) if the validation loss failed to improve over 3 consecutive epochs.
-
 \subsection{Training}
-The fine-tuned model was trained in the same manner as our model, with the same losses, loss weights,
-learning rate and optimizer. 
+The pre-trained model was trained in the same manner as Model A, with the same losses, loss weights, learning rate and optimizer. 
 
+Unfortunately we found the model started heavily over-fitting after a number of epochs.\\
+If left to train for longer it would continue to improve training accuracy, however validation would not, and occasionally get worse.
+As a form of hyper-parameter training we implemented a stop early callback which would end the training and retain the best weights (with respect to validation loss output) if the validation loss failed to improve over 5 consecutive epochs.
+
+\begin{optional}
+    \subsubsection{Hyper-Parameter Tuning}
+    Hyper-Parameters were tuned in the same manner as for Model A.\\
+    The difference being the hyper-parameters tuned were:
+    \begin{enumerate}
+        \item Initial Learning rate
+        \item Flatten Vs Global Pooling: whether to flatten the 3D output from the final convolution layers to get a 1 x N*M*M (where N is the feature depth, and M is the kernel size), or to average across all the features to get a 1xN vector (N is the feature depth).
+        \item Feature depth of final convolution layer (for both branches)
+        \item Number of Units for first FCN layer (for both branches)
+        \item Dropout rate (for both branches)
+        \item Regularisation (for both branches)
+    \end{enumerate}
+    Once this completed, we rebuilt and trained the model with the tuned hyper-params fixed.
+\end{optional}
 
 \subsection{Performance}
 The trace of the final epoch is below.
+\begin{notes}
+    Pending final training\dots\\
+    Should this be placed in appendix, but key values (gender accuracy and age MAE) be provided, to discuss along with graphs.
+\end{notes}
 \begin{verbatim}
     Epoch 24/50
 125/125 [==============================] 
@@ -75,19 +93,19 @@ The trace of the final epoch is below.
 - val_gender_output_binary_accuracy: 0.8448
 \end{verbatim}
 
-The fine-tuned model performed slightly worse than our model on both tasks on the validation data.
+The pre-trained model performed slightly worse than our model on both tasks on the validation data.
 It achieved an accuracy of 84\% on gender prediction and a mean squared error of 8.1 on age
 prediction. It also over-fits slightly, achieving higher performance on the training data.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.7\textwidth]{Model_B_AgeLearning.png}
-    \caption{\label{fig:ModelBPerformanceAge} The performance on age prediction for the fine-tuned model.}
+    \caption{\label{fig:ModelBPerformanceAge} The performance on age prediction for the pre-trained model.}
 \end{figure}
 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.7\textwidth]{Model_B_GenderLearning.png}
-    \caption{\label{fig:ModelBPerformanceGender} The performance on gender prediction for the fine-tuned model.}
+    \caption{\label{fig:ModelBPerformanceGender} The performance on gender prediction for the pre-trained model.}
 \end{figure}

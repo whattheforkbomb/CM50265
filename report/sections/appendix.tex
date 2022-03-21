@@ -1,8 +1,10 @@
 % Appendices here
 % \newgeometry{top=0.5cm,bottom=0.5cm}
-\section*{Model A Learning Curves - Greyscale Comparison}
-
-\subsection*{Greyscale Applied To Gender \& Age Branches}
+\appendix
+\addcontentsline{toc}{section}{Appendix}
+\addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
+\section{Greyscale Comparison - Old Model A Learning Curves}
+\subsection{Greyscale Applied To Gender \& Age Branches}
 \begin{figure}[h!]
     \centering
     \includegraphics[height=0.42\textheight]{ModelA_AgeLearning_FCNDropout_BothGreyScale_NoRegularisation.png}
@@ -15,7 +17,7 @@
 \end{figure}
 \newpage
 
-\subsection*{Greyscale Applied To Neither Branch}
+\subsection{Greyscale Applied To Neither Branch}
 \begin{figure}[h!]
     \centering
     \includegraphics[height=0.42\textheight]{ModelA_AgeLearning_FCNDropout_NoGreyScale_NoRegularisation.jpeg}
@@ -28,7 +30,7 @@
 \end{figure}
 \newpage
 
-\subsection*{Greyscale Applied To Gender Branch Only}
+\subsection{Greyscale Applied To Gender Branch Only}
 \begin{figure}[h!]
     \centering
     \includegraphics[height=0.42\textheight]{ModelA_AgeLearning_FCNDropout_GenderGreyScale_NoRegularisation.png}
@@ -41,16 +43,7 @@
 \end{figure}
 \newpage
 
-\subsection*{Greyscale Applied To Both Branches}
-\begin{figure}[h!]
-    \centering
-    \includegraphics[height=0.9\textheight]{ModelAGraph_sample_GreyscaleBothBranches.png}
-    \label{fig:modelA_original_graph_gs_both}
-\end{figure}
-\newpage
-
-\section*{Original Model A Graphs}
-\subsection*{No Greyscale}
+\section{Old Model A Graph}
 \begin{figure}[h!]
     \centering
     \includegraphics[height=0.9\textheight]{ModelAGraph_sample.png}
@@ -58,10 +51,9 @@
 \end{figure}
 \newpage
 
-\subsection*{Greyscale Applied To Gender Branch Only}
+\section{Model A Hyper-Parameter Tuning} \label{appendix:Model_A_Hyper-Parameter_Tuning}
 \begin{figure}[h!]
     \centering
-    \includegraphics[height=0.9\textheight]{ModelAGraph_sample_GreyscaleGenderBranch.png}
-    \label{fig:modelA_original_graph_gs_gender}
+    \includegraphics[height=0.9\textheight]{HyperParameter_Tuning.png}
+    \label{fig:modelA_hyperparam_tuning}
 \end{figure}
-\newpage

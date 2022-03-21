@@ -68,7 +68,12 @@
 
 \newcommand{\tempnote}[1]{\textbf{\textit{\textcolor{red}{#1}}}\\}
 \newenvironment{notes}
-  {\itshape\color{red}}
+  {%TC:ignore
+  \itshape\color{red}}
+  {%TC:endignore
+  }
+\newenvironment{optional}
+  {\itshape\color{blue}}
   {}
 
 

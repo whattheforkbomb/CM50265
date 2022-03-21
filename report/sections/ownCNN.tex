@@ -1,76 +1,102 @@
-% Data augmentation
-%   Image rotation, zoom, shifting, mirroring
-%   Possible layer to convert to greyscale to reduce number of params to train
-%   Could actually be own section as shared between both models?
-
-% Model walkthrough
-%   Final model shape (layer count, params) 
-% Total params: 1,045,058
-% Trainable params: 1,044,162
-% Non-trainable params: 896
-
-%   Hyper-params (and potentially tuning?)
-%   approaches to reduce over-fitting (drop-out, regularisation (still need to add))
-%   approaches to reduce vanishing gradients (additive layers)
-%   approaches to vanishing weights (leaky-relu and normalisation)
-%   Distinct CNN layers (for feature extraction) and FCN layers (for classification)
-%   probs not image of graph (as massive), but can add to appendix
-
-
-% Training and learning
-%   Time to train, params, layers, etc
-%   Learning curves
-
-% Link to colab notebook
 
 \section{Model A - CNN Created From Scratch}
 \subsection{Architecture}
-Our model architecture is shown in Fig \ref{fig:ModelAGraph}. It consists of a shared trunk with two convolutional 
-layers with 64 3x3 kernels and relu activation followed by a 2x2 maxpooling layer and a batchnorm layer. It then 
-has a convolutional layer with 128 3x3 kernels followed by a 2x2 maxpooling layer. The output of this trunk is 
-sent to different branches for age and gender prediction. The age and gender branches have the same architecture
-except for the number of filters in their final convolutional layers. Each branch has two 
-convolutional-maxpooling-batchnorm blocks, the first with 64 3x3 convolutional filters and the second with 
-128 2x2 filters. They are then followed by another convolutional layer of 64 2x2 filters for gender and 128 2x2 
-filters for age. The output of this convolutional layer is then flattened and fed into a 3 layer dense MLP. The first
-layer has 128 node, the second 16 and the final layer is a single node for the output. The first and second layers 
-use relu activation and the final layer uses no activation for age prediction and a sigmoid activation for gender 
-prediction.
+Our model architecture is shown in Fig \autoref{fig:ModelAGraph}. 
+It consists of a shared trunk with two convolutional layers with 64 3x3 kernels and relu activation followed by a 2x2 maxpooling layer and a batchnorm layer. 
+It then has a convolutional layer with 128 3x3 kernels followed by a 2x2 maxpooling layer. 
+The output of this trunk is sent to different branches for age and gender prediction. 
+The age and gender branches have the same architectureexcept for the number of filters in their final convolutional layers. 
+Each branch has two convolutional-maxpooling-batchnorm blocks, the first with 64 3x3 convolutional filters and the second with 128 2x2 filters. 
+They are then followed by another convolutional layer of 64 2x2 filters for gender and 128 2x2 filters for age. 
+The output of this convolutional layer is then flattened and fed into a 3 layer dense MLP. 
+The first layer has 128 node, the second 16 and the final layer is a single node for the output. 
+The first and second layers use relu activation and the final layer uses no activation for age prediction and a sigmoid activation for gender prediction.
+\begin{notes}
+    \\Do we need a full breakdown of the architecture like this?\\
+    Given we have the actual graph, think it might be as effective to just include the graph for reference and instead highlight the general arch/approach as you've done below.\\
+    We can also include the full architecture output from the summary method in the Appendix if we want to have the breakdown in the report.\\
+    Mainly thinking to save on word count.
+\end{notes}
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{ModelA_Graph.png}
-    \caption{\label{fig:ModelAGraph} The architecture for our model.}
+    \includegraphics[height=0.95\textheight]{ModelA_Graph.png}
+    \caption{\label{fig:ModelAGraph} The architecture for Model A.}
 \end{figure}
 
-This architecture was chosen because the first layers of a CNN usually extract generic low-level features which are 
-common to many images. Therefore using a shared trunk allows the network to use fewer parameters and helps reduce 
-over-fitting. The branches then allow the model to further extract higher level features specific to age or gender 
-prediction. The batchnorm layers help to reduce over-fitting. The dense layers also employ dropout and L2 regularisation
-to reduce over-fitting. The dropout rate, regularisation factor and the size of the final convolutional layer in 
-the branches were chosen using hyperparameter tuning with keras.tuner.
+This architecture was chosen because the first layers of a CNN usually extract generic low-level features which are common to many images. 
+Therefore using a shared trunk allows the network to use fewer parameters and helps reduce over-fitting.
+The branches then allow the model to further extract higher level features specific to age or gender prediction. 
+The batchnorm layers help to constrain the gradient delta of weights during training (e.g. preventing some gradients reaching excessive value, large and small). 
+The dense layers also employ dropout and L2 regularisation to reduce over-fitting. 
+
+\begin{notes}
+    Should we have a subsubsection for the over-fitting prevention?\\
+    We already list above as being done for over-fitting, but wondering if having a section would make it more clear?
+\end{notes}
+
+\begin{optional}
+    \begin{notes}
+        A small aside on our previous model to highlight usage of Addition layers and to show improvement seen in new model?\\
+        Probably not much here though, as don't want to eat into word count.
+    \end{notes}
+    \\Prior to arriving at current model, started with overly complex model.\\
+    It had X levels of convolutions, batch normalisation and pooling.
+    Used addition layers to combat vanishing gradient
+    After the convolution layers, two FCN were added, one for each output.
+    We also played with performing a conversation to grey scale within the network.
+    However training the model (with and without grey scale) did not provide amazing results and faced over-fitting regularly during training (spiky validation)
+
+    One note we were able to draw from the original model was that by having a shared convolution layers we reduced over-fitting.
+    We believe this is due to weight adjustment being performed when we had separate convolution layers allowing those layers to fit the training data too well, and by having shared CNN, no weights were able to be adjusted to prioritise a specific feature, and instead be weighted as a compromise to be good for features for both branches.
+\end{optional}
 
 \subsection{Training}
-The model is trained to minimize a weighted average of losses from each branch. The loss for the gender prediction
-output is binary cross entropy because it is a binary classification problem and the loss for the age prediction 
-is mean squared error because it is a regression problem. Mean squared error was chosen over mean absolute error 
-in order to punish large errors more. than small ones. The average loss is weighted 1:50 towards gender prediction
-because the average gender losses seen during training were approximately 50 times smaller than the age losses. This 
-weighting was chosen so the model attempts to balance its training objectives without over-prioritising either age or 
-gender. The model uses the Adam optimizer with a exponentially decaying learning rate. 
+The model is trained to minimize a weighted average of losses from each branch. 
+The loss for the gender prediction output is binary cross entropy because it is a binary classification problem and the loss for the age prediction is mean squared error because it is a regression problem. 
+Mean squared error was chosen over mean absolute error in order to penalise larger errors more than smaller ones. 
+The average loss is weighted 1:100 towards gender prediction because the average gender losses seen during training were approximately 50 times smaller than the age losses.
+This weighting was chosen so the model attempts to balance its training objectives without over-prioritising either age or gender. 
+The model uses the Adam optimizer with a exponentially decaying learning rate. 
 
-The model is trained for 50 epochs but saves the weights from the epoch with the lowest validation loss. This is 
-effectively using early stopping as a means to avoid over-fitting.
+The model is trained for a total of 50 epochs.
+
+\begin{optional}
+    \subsubsection{Hyper-Parameter Tuning}
+    To tune the hyper-parameters we utilized the \verb|keras_tuner|.
+    This Keras package allows you to define a set of hyper-parameters for use when building the model. 
+    The tuner will build several models, cycling though the different permutations.\\
+    It will start with just running a couple of epochs for each permutation, identifying which are the best performing, and then continue training the best parameters for more epochs until the best set is found.\\
+    The tuner ignores the training losses, and instead focuses solely on the validation loss, since it's training hyper-params, rather than model weights.\\
+    We identified the following hyper-parameters to tune:
+    \begin{enumerate}
+        \item Greyscale: Whether to apply a greyscale filter to the gender branch, both branches, or neither.
+        \item Sigmoid Vs \verb|BinaryCrossEntropy| With logits: whether to use a sigmoid activation on the gender branch or enable logits for the \verb|BinaryCrossEntropy| loss function.
+        \item Initial Learning rate
+        \item Feature depth of final convolution layer (for both branches)
+        \item Dropout rate (for both branches)
+        \item Regularisation (for both branches)
+    \end{enumerate}
+    An output of the tuning can b found in the appendix here \autoref{appendix:Model_A_Hyper-Parameter_Tuning}
+
+    Once this completed, we rebuilt and trained the model with the tuned hyper-params fixed.
+\end{optional}
 
 \subsection{Data}
-The model is trained on data from the training data provided. The training data is fed into the model using keras 
-data generators. These generators split the data into a training and validation set using a validation split of 0.2. 
-Data augmentation is performed to effectively increase the size of the dataset and prevent over-fitting. The augmentations
-used are rotaion, zoom, and horizontal flipping. The augmentations were performed on both training and validation data.
+The model is trained on data from the dataset provided. The data is preprocessed using the Keras \verb|ImageDataGenerator| to effectively increase the size of the dataset and prevent over-fitting. 
+The augmentations used are rotation, zoom, and horizontal flipping.\\
+To split the dataset into the Training and Validation datasets, the \verb|ImageDataGenerator| was provided 0.2 as the validation split. We then called the \verb|flow_from_dataframe| method on the generator, passing in the dataframe containing the image paths and labels, and provided which dataset should be created, e.g. training or validation.
+This created two generators, one for training (utilising 80\% of the dataset), and one for validation (utilising 20\% of the dataset).\\
+These generators will then provide augmented versions of the data upon each batch being requested by during the model training.
 
 \subsection{Performance}
-The trace of the final training epoch is below.
+Fig \autoref{fig:ModelAPerformanceAge} and \autoref{fig:ModelAPerformanceGender} show the training graphs. 
+Our model shows good performance on both age and gender prediction. 
+It achieves an accuracy of 93\% for gender prediction and a mean absolute error of 5.6 for age prediction on the training data. 
+However it can be seen that the model over-fits slightly and achieves slightly lower performance on the validation data, with an accuracy or 88\% for gender prediction and mean absolute error of 6.8 for age prediction. 
+The gender branch can be seen to over-fit to a greater extent than the age branch.
 
+The trace of the final training epoch is below.\\
 \begin{verbatim}
     Epoch 50/50
 125/125 [==============================] 
@@ -86,58 +112,20 @@ The trace of the final training epoch is below.
 - val_age_output_mean_absolute_error: 6.8350 
 - val_gender_output_binary_accuracy: 0.8821
 \end{verbatim}
-
-Fig \ref{fig:ModelAPerformanceAge} and \ref{fig:ModelAPerformanceGender}
-show the training graphs. Our model shows good performance on both age and gender prediction. It achieves an accuracy
-of 93\% for gender prediction and a mean absolute error of 5.6 for age prediction on the training data. 
-However it can be seen that the model over-fits slightly and achieves slightly lower performance on the validation
-data, with an accuracy or 88\% for gender prediction and mean absolute error of 6.8 for age prediction. The gender 
-branch can be seen to over-fit to a greater extent than the age branch.
-
-\begin{figure}
+\begin{notes}
+    Throw training output in appendix as it is text?\\
+    Can just include gender binary accuracy and age MAE for both training and validation to summarize performance and discuss the graphs?
+\end{notes}
+\begin{figure}[h]
     \centering
-    \includegraphics[width=0.7\textwidth]{ModelA_AgeLearning_TunedHyperParams.png}
-    \caption{\label{fig:ModelAPerformanceAge} The performance on age prediction for our model.}
+    \begin{subfigure}{\textwidth}
+        \includegraphics[height=0.45\textheight]{ModelA_AgeLearning_TunedHyperParams.png}
+        \caption{\label{fig:ModelAPerformanceAge} The performance on age prediction for our model.}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}
+        \includegraphics[height=0.45\textheight]{ModelA_GenderLearning_TunedHyperParams.png}
+        \caption{\label{fig:ModelAPerformanceGender} The performance on gender prediction for our model.}
+    \end{subfigure}
+    \label{fig:ModelAPerformance}
+    \caption{Learning curves observed training Model A}
 \end{figure}
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.7\textwidth]{ModelA_GenderLearning_TunedHyperParams.png}
-    \caption{\label{fig:ModelAPerformanceGender} The performance on gender prediction for our model.}
-\end{figure}
-
-The final model we have produced (linked on the contribution page) has 
-
-Used ImageDataGenerator to augment images, and effectively increase the training and validation data size
-Though this took some work due to an incorrect parameter being used which caused both labels to be passed to the loss functions used to train both branches.
-
-Prior to arriving at current model, started with overly complex model.
-Had X levels of convolutions, batch normalisation and pooling
-Used addition layers to combat vanishing gradient
-After the convolution layers, to wo FCN were added, one for each output.
-We also played with performing a conversation to grey scale within the network.
-However training the model (with and without grey scale) did not provide amazing results and faced over-fitting regularly during training (spiky validation)
-
-One note we were able to draw from the original model was that by having a shared convolution layers we reduced over-fitting.
-We believe this is due to weight adjustment being performed when we had separate convolution layers allowing those layers to fit the training data too well, and by having shared CNN, no weights were able to be adjusted to prioritise a specific feature, and instead be weighted as a compromise to be good for features for both branches.
-
-Believing the original model being too complex, and training taking a long time, we started from scratch and downsized the model, and started observing more performance (have image of this prior to thinking?)
-To reduce over-fitting we have included dropout within the FCN layers, we also included regularisation within the FCN layers
-To reduce issues with vanishing gradient, we used batch normalisation.
-Loss weights were used to scale the loss from the gender binary cross entropy to be in a similar range as the age mean square error
-Mean square error was used for training loss to more heavily penalise larger errors.
-
-Then began hyper-parameters tuning.
-Using the Keras tuner we defined following hyper-params:
-Greyscale: neither, both, gender only
-Learning rate
-Learning rate decay
-Feature depth of final convolution layer (both gender and age)
-Dropout rate (both gender and age)
-Regularisation (both gender and age)
-???
-This ran several training sessions with the different parameters to identify which one resulted in the best validation loss
-Unfortunately it can only tune based on a single loss value, and as such had to be trained on the validation loss generated as a weighted sum from both branches.
-
-Once this completed, we rebuilt the model with the tuned hyper-params.
