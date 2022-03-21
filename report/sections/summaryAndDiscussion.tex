@@ -1,3 +1,21 @@
+\section{Summary and Conclusions}
 
+As a purpose built model, Model A was able to perform well given its size. \\
+It demonstrated some over-fitting as validation was worse than training routinely, but only by a small margin.\\
+It was however under-fit, likely due to lacking complexity, either in the convolution layers, and as such not extracting enough features, or in the FCN layers, not correctly utilising the extracted features sufficiently.
 
-% Can improve with hyperparam tuner in keras
+Model B performed worse than Model A, and suffered from over-fitting in particular when trained for the same number of epochs.\\
+Given the success of performance of the ResNet50 model, and the number of convolutions \& layers present it contains, you would expect the feature extraction capabilities to supersede that of Model A.\\
+Given this you'd expect Model B to out perform Model A.
+Though the performance is close (as was the disparity between training and validation loss), Model B actually performed slightly worse than Model A.
+Below are the reasons we believe this to be the case:
+\begin{enumerate}
+    \item \textbfit{Fixed Convolution Layers Weights:}\\
+    Due to Model B utilising ResNet50's convolution layers, initialised with the trained ImageNet weights, and having these weights frozen in subsequent training, it is possible that the features extracted within the 4 x 4 x 2048 output of the ResNet50 model was not effectively trained to provide the optimal features for predicting either Age Or Gender, since it was trained instead for 1000s of the ImageNet classes.\\
+    Since Model A was able to update the convolution layer weights during training, it may have been able to produce more optimal features and weights for predicting age and gender.
+
+    \item \textbfit{Lack of Hyper-Parameter tuning / identification:}\\
+    When we left Model B to continue training beyond the epoch that triggered the early-stopping callback, the model was able to continue improving its training loss reduction much faster than that of Model A, however the validation loss either failed to improve, or in-fact worsened.\\
+    Given this it is possible that the hyper-parameters for Model B could be sub-optimal, resulting in the model over-fitting.
+    To resolve this we could perform the same hyper-parameter tuning we did for Model A, though adjusted to suit the hyper-parameters we identify for Model B.
+\end{enumerate}

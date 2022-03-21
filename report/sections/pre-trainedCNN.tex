@@ -35,3 +35,30 @@
 % 125/125 [==============================] - 47s 371ms/step - loss: 106.3928 - age_output_loss: 93.4850 - gender_output_loss: 0.1291 - age_output_mean_absolute_error: 6.9812 - gender_output_binary_accuracy: 0.9488 - val_loss: 140.9203 - val_age_output_loss: 112.3616 - val_gender_output_loss: 0.2856 - val_age_output_mean_absolute_error: 7.3017 - val_gender_output_binary_accuracy: 0.8881
 % Epoch 24/50
 %  125/125 [==============================] - 47s 377ms/step - loss: 102.8915 - age_output_loss: 89.4744 - gender_output_loss: 0.1342 - age_output_mean_absolute_error: 6.8606 - gender_output_binary_accuracy: 0.9452 - val_loss: 176.9170 - val_age_output_loss: 136.7507 - val_gender_output_loss: 0.4017 - val_age_output_mean_absolute_error: 8.1429 - val_gender_output_binary_accuracy: 0.8448
+
+\section{Model B - Using Pre-Trained CNN}
+\subsection{Pre-Trained Model Selection}
+Used ResNet50, as relatively small, yet very accurate with respect to top 5 rating on ImageNet.
+
+It was loaded with the weights from ImageNet, and then the convolution layers frozen, such that they would not be adjusted during training.
+
+\subsection{Architecture}
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=0.5\textheight]{ModelBGraph_sample_simplified_dropouts_truncated.png}
+\end{figure}
+Following the ResNet output, we perform a global pool (rather than flatten as it didn't seem to learn) and created two FCN branches from this for the gender and age predictions.
+Both branches utilised dropout weights.
+
+Unfortunately we find the model started heavily over-fitting during training after a some number is epochs.
+If left to train for longer it would continue to improve training accuracy, however validation would not, and occasionally get worse.
+So as a form of hyper-parameter training we implemented a stop early callback which would end the training and retain the best weights (with respect to validation loss output) if the validation loss failed to improve over 3 epochs.
+
+\subsubsection{Over-Fitting Prevention}
+
+
+\subsection{Training}
+
+
+\subsection{Performance}
+

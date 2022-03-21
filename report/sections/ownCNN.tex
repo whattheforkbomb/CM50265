@@ -23,3 +23,38 @@
 
 % Link to colab notebook
 
+\section{Model A - CNN Created From Scratch}
+The final model we have produced (linked on the contribution page) has 
+
+Used ImageDataGenerator to augment images, and effectively increase the training and validation data size
+Though this took some work due to an incorrect parameter being used which caused both labels to be passed to the loss functions used to train both branches.
+
+Prior to arriving at current model, started with overly complex model.
+Had X levels of convolutions, batch normalisation and pooling
+Used addition layers to combat vanishing gradient
+After the convolution layers, to wo FCN were added, one for each output.
+We also played with performing a conversation to grey scale within the network.
+However training the model (with and without grey scale) did not provide amazing results and faced over-fitting regularly during training (spiky validation)
+
+One note we were able to draw from the original model was that by having a shared convolution layers we reduced over-fitting.
+We believe this is due to weight adjustment being performed when we had separate convolution layers allowing those layers to fit the training data too well, and by having shared CNN, no weights were able to be adjusted to prioritise a specific feature, and instead be weighted as a compromise to be good for features for both branches.
+
+Believing the original model being too complex, and training taking a long time, we started from scratch and downsized the model, and started observing more performance (have image of this prior to thinking?)
+To reduce over-fitting we have included dropout within the FCN layers, we also included regularisation within the FCN layers
+To reduce issues with vanishing gradient, we used batch normalisation.
+Loss weights were used to scale the loss from the gender binary cross entropy to be in a similar range as the age mean square error
+Mean square error was used for training loss to more heavily penalise larger errors.
+
+Then began hyper-parameters tuning.
+Using the Keras tuner we defined following hyper-params:
+Greyscale: neither, both, gender only
+Learning rate
+Learning rate decay
+Feature depth of final convolution layer (both gender and age)
+Dropout rate (both gender and age)
+Regularisation (both gender and age)
+???
+This ran several training sessions with the different parameters to identify which one resulted in the best validation loss
+Unfortunately it can only tune based on a single loss value, and as such had to be trained on the validation loss generated as a weighted sum from both branches.
+
+Once this completed, we rebuilt the model with the tuned hyper-params.
