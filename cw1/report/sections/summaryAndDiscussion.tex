@@ -1,3 +1,27 @@
+\section{Summary and Conclusions}
+Both models perform well, achieving good accuracy and low mean absolute error scores on our validation data.\\
+Both models over-fit significantly (Model A on both outputs, Model B just on the gender accuracy) despite measures to counteract it including L2 regularisation, dropout and data augmentation.
 
+\begin{table}[h!]
+    \centering
+    \begin{tabular}[h]{c|c|c|c}
+        \hline
+        Model & Metric & Training & Validation \\
+        \hline
+        \multirow{2}{4em}{Model A} & Age Mean Absolute Error & 5.5780 & 6.8350 \\
+        \cline{2-4}
+        & Gender Binary Accuracy & 0.9330 & 0.8821 \\
+        \hline
+        \multirow{2}{4em}{Model B} & Age Mean Absolute Error & 6.6296 & 6.4352 \\
+        \cline{2-4}
+        & Gender Binary Accuracy & 0.9495 & 0.8952 \\
+        \hline
+    \end{tabular}
+    \caption{\label{tab:ModelPerformanceComparision}Comparison of Model Performances}
+\end{table}
 
-% Can improve with hyperparam tuner in keras
+Model B performs slightly better than Model A. \\
+Better performance from model B was expected because it is able to utilise the feature extraction capabilities of ResNet50, a significantly more advanced model than our own.
+However the performance improvement is small. We have several hypotheses to explain this. \\
+The first is that our model is specifically designed for age and gender prediction, having a dedicated branch for each task allowing it to extract features more specific to the tasks. ImageNet does not contain classes related to human faces so the features it extracts may be too generic to provide significant performance improvements over our dedicated model.\\
+Secondly it is possible that there is simply not enough information in our training data to achieve higher performance. The size of the training set is relatively small and age and gender can be difficult to predict in some cases even for humans. This may also explain the over-fitting observed in both models.

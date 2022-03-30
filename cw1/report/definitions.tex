@@ -4,7 +4,8 @@
 % \usepackage{harvard}    % Uses harvard style referencing
 \usepackage{graphicx}   % Permits import of various graphics formats
 \usepackage{pdflscape}  % Provides landscape mode for end code listings
-\usepackage{multicol}   % Provides ability to split output into columns
+\usepackage{multicol}   % Provides ability to split output into columns & rows
+\usepackage{multirow}
 \usepackage{listings}   % Provides styled code listings
 \usepackage{textcomp}
 \usepackage{subcaption}
@@ -32,9 +33,9 @@
 \urlstyle{same}
 
 %% Header/Footer Setup
-\lhead{\rightmark}
+\lhead{\leftmark}
 \chead{}
-\rhead{EE50237 Technical Report}
+\rhead{CM50265 - Assignment 1 Group Report}
 \lfoot{}
 \cfoot{}
 \rfoot{\thepage}
@@ -68,7 +69,12 @@
 
 \newcommand{\tempnote}[1]{\textbf{\textit{\textcolor{red}{#1}}}\\}
 \newenvironment{notes}
-  {\itshape\color{red}}
+  {%TC:ignore
+  \itshape\color{red}}
+  {%TC:endignore
+  }
+\newenvironment{optional}
+  {\itshape\color{blue}}
   {}
 
 
