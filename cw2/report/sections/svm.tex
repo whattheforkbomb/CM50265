@@ -1,2 +1,15 @@
 \section{Support Vector Machine (SVM)}
 % Approach and results with respect to the SVM
+
+% Why?
+% Data is not linearly classify-able, e.g. you can't use a single linear function (a line, plane, cube, hyper-plane, etc (manifold?)) to separate the data.
+% Rather than try to create and optimise a non-linear classification function, we apply a kernel to the input data to extend the dimensionality such that it can be linearly classified.
+% For example, data that could be classified as being within a circle with radius r, vs outside the circle, can use a 2-D gaussian kernel centred on circle's centre to create a 3'rd dimension with which to separate the data; points closer to the circle's centre / gaussian's mean will be given large values in the 3rd dimension
+% You can then split the data with a 2-D plane within the new 3-D space.
+
+% Our approach
+% Used the sklearn SVM.SVC as the SVM (well tested, robust, easy to setup)
+
+% Tested 3 different kernels: RBF, Poly, Linear
+% first 2 kernels are built-in, the latter was created by ourselves, which effectively applies a weight to each feature, before performing a dot product on the X and Y data
+% Breakdown of the RBF and Poly 
