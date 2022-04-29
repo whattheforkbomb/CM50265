@@ -8,12 +8,52 @@
 Please find our code and report source here: \url{https://github.com/whattheforkbomb/CM50265/tree/trunk/cw2}
 
 \section{Embedding Approach}
-\begin{figure}[h]
-    \includegraphics[width=\textwidth]{Feature_Correlation_Heatmap.png}
-\end{figure}
-\begin{figure}[h]
-    \includegraphics[width=\textwidth]{figures/Feature_Correlation_Heatmap_Non_Trunkated_Embedding.png}
+\begin{figure}[h!]
+    \includegraphics[width=\textwidth]{figures/Feature_Correlation_Heatmap.png}
+    \caption{\label{fig:feature_corr_hm_old} Heat-map showing correlation of embedding features to the sentence sentiment with sentence truncation}
 \end{figure}
 
+\section{SVM Hyper-Parameter Tuning}
+\subsection{Tuning With Truncated Sentences}
+
+\subsection{Polynomial Kernel Hyper-Parameter Grid Search Heatmaps}
+\begin{figure}[h!]
+    \includegraphics[width=0.6\textwidth]{figures/final/poly_c_d.png}
+    \caption{\label{fig:poly_c_d} Heatmap of optimal hyper-parameters C and Degrees for Polynomial Kernel}
+\end{figure}
+\begin{figure}[h!]
+    \includegraphics[width=0.6\textwidth]{figures/final/poly_c_g.png}
+    \caption{\label{fig:poly_c_g} Heatmap of optimal hyper-parameters C and Gamma for Polynomial Kernel}
+\end{figure}
+\begin{figure}[h!]
+    \includegraphics[width=0.6\textwidth]{figures/final/poly_g_d.png}
+    \caption{\label{fig:poly_g_d} Heatmap of optimal hyper-parameters Gamma and Degrees for Polynomial Kernel}
+\end{figure}
+\subsection{Linear Kernel Hyper-Parameter Grid Search Heat-Maps}
+% 'x300', 'x55', 'x5', 'x317', 'x180', 'x177'
+\begin{figure}[h!]
+    \includegraphics[width=\textwidth]{figures/final/linear_x1.png}
+    \caption{\label{fig:lin_300} Heatmap of optimal hyper-parameters C and Weight for feature 300 for Linear Kernel}
+\end{figure}
+\begin{figure}[h!]
+    \includegraphics[width=\textwidth]{figures/final/linear_x2.png}
+    \caption{\label{fig:lin_55} Heatmap of optimal hyper-parameters C and Weight for feature 55 for Linear Kernel}
+\end{figure}
+\begin{figure}[h!]
+    \includegraphics[width=\textwidth]{figures/final/linear_x3.png}
+    \caption{\label{fig:lin_5} Heatmap of optimal hyper-parameters C and Weight for feature 5 for Linear Kernel}
+\end{figure}
+\begin{figure}[h!]
+    \includegraphics[width=\textwidth]{figures/final/linear_x4.png}
+    \caption{\label{fig:lin_317} Heatmap of optimal hyper-parameters C and Weight for feature 317 for Linear Kernel}
+\end{figure}
+\begin{figure}[h!]
+    \includegraphics[width=\textwidth]{figures/final/linear_x5.png}
+    \caption{\label{fig:lin_180} Heatmap of optimal hyper-parameters C and Weight for feature 180 for Linear Kernel}
+\end{figure}
+\begin{figure}[h!]
+    \includegraphics[width=\textwidth]{figures/final/linear_x6.png}
+    \caption{\label{fig:lin_177} Heatmap of optimal hyper-parameters C and Weight for feature 177 for Linear Kernel}
+\end{figure}
 % Tell TexCount to start counting words again
 %TC:endignore

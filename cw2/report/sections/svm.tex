@@ -7,7 +7,7 @@
 % For example, data that could be classified as being within a circle with radius r, vs outside the circle, can use a 2-D gaussian kernel centred on circle's centre to create a 3'rd dimension with which to separate the data; points closer to the circle's centre / gaussian's mean will be given large values in the 3rd dimension
 % You can then split the data with a 2-D plane within the new 3-D space.
 
-\subsection{Radial Basis Function}
+\subsection{Radial Basis Function (RBF)}
 % What is this kernel (broadly)
 
 % Used Built-in implementation
@@ -20,9 +20,23 @@
 %   - check the original sentences (e.g. sentence length, good & bad words)
 %   - which features common to tp, fp, tn, fn, any sentences that don't correlate
 
-% Correct Predicitons: TP: 744, TN: 719
-% Incorrect Predictions: FP: 12, FN: 25
 %  metrics: {'accuracy': 0.9753333333333334, 'f1_score': 0.9757377049180328, 'sensitivity': 0.9674902470741222, 'false_negative_rate': 0.032509752925877766, 'false_positive_rate': 0.016415868673050615, 'specificity': 0.9835841313269493}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}[h]{c c|c|c|}
+        \cline{3-4}
+        & & \multicolumn{2}{c|}{Predicted} \\
+        \cline{3-4}
+        & & + & - \\
+        \hline
+        \multicolumn{1}{|c|}{\multirow{2}{3em}{Actual}} & + & 744 & 25 \\
+        \cline{2-4}
+        \multicolumn{1}{|c|}{} & - & 12 & 25 \\
+        \hline
+    \end{tabular}
+    \caption{\label{tab:rbf_confusion}RBF Kernel Model Confusion Matrix}
+\end{table}
 
 \subsection{Polynomial}
 % What is this kernel (broadly)
@@ -37,9 +51,23 @@
 %   - check the original sentences (e.g. sentence length, good & bad words)
 %   - which features common to tp, fp, tn, fn, any sentences that don't correlate
 
-% Correct Predicitons: TP: 747, TN: 726
-% Incorrect Predictions: FP: 5, FN: 22
 %  metrics: {'accuracy': 0.982, 'f1_score': 0.9822485207100592, 'sensitivity': 0.9713914174252276, 'false_negative_rate': 0.02860858257477243, 'false_positive_rate': 0.006839945280437756, 'specificity': 0.9931600547195623}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}[h]{c c|c|c|}
+        \cline{3-4}
+        & & \multicolumn{2}{c|}{Predicted} \\
+        \cline{3-4}
+        & & + & - \\
+        \hline
+        \multicolumn{1}{|c|}{\multirow{2}{3em}{Actual}} & + & 747 & 22 \\
+        \cline{2-4}
+        \multicolumn{1}{|c|}{} & - & 5 & 726 \\
+        \hline
+    \end{tabular}
+    \caption{\label{tab:poly_confusion}Polynomial Kernel Model Confusion Matrix}
+\end{table}
 
 \subsection{Linear}
 % What is this kernel (broadly)
@@ -57,6 +85,21 @@
 % Correct Predicitons: TP: 663, TN: 637
 % Incorrect Predictions: FP: 94, FN: 106
 %  metrics: {'accuracy': 0.8666666666666667, 'f1_score': 0.8689384010484927, 'sensitivity': 0.8621586475942783, 'false_negative_rate': 0.1378413524057217, 'false_positive_rate': 0.12859097127222982, 'specificity': 0.8714090287277702}
+\begin{table}[h!]
+    \centering
+    \begin{tabular}[h]{c c|c|c|}
+        \cline{3-4}
+        & & \multicolumn{2}{c|}{Predicted} \\
+        \cline{3-4}
+        & & + & - \\
+        \hline
+        \multicolumn{1}{|c|}{\multirow{2}{3em}{Actual}} & + & 663 & 106 \\
+        \cline{2-4}
+        \multicolumn{1}{|c|}{} & - & 94 & 637 \\
+        \hline
+    \end{tabular}
+    \caption{\label{tab:lin_confusion}Linear Kernel Model Confusion Matrix}
+\end{table}
 
 \subsection{Kernel Comparison}
 

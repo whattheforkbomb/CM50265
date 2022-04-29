@@ -2,9 +2,9 @@
 %% Package includes
 %%
 \usepackage{graphicx}   % Permits import of various graphics formats
-\usepackage{geometry}   % Page resizing
 \usepackage{pdflscape}  % Provides landscape mode for end code listings
 \usepackage{multicol}   % Provides ability to split output into columns
+\usepackage{multirow}
 \usepackage{listings}   % Provides styled code listings
 \usepackage{textcomp}
 \usepackage{subcaption}
@@ -21,6 +21,7 @@
 \usepackage{microtype}      % microtypography
 \usepackage{titling}
 \usepackage{array}
+\usepackage{geometry}
 
 % Path to figures
 \graphicspath{{figures/}}
@@ -33,8 +34,8 @@
 % Should these tables include content from appendix?
 \appto\appendix{
   \addtocontents{toc}{\protect\setcounter{tocdepth}{0}} % Should main appendix sections be shown, or just show APPENDIX in the TOC?
-  \addtocontents{lof}{\protect\setcounter{tocdepth}{0}}
-  \addtocontents{lof}{\protect\setcounter{tocdepth}{0}}
+  % \addtocontents{lof}{\protect\setcounter{tocdepth}{0}}
+  % \addtocontents{lof}{\protect\setcounter{tocdepth}{0}}
 }
 \appto\listoffigures{\addtocontents{lof}{\protect\setcounter{tocdepth}{1}}}
 \appto\listoftables{\addtocontents{lot}{\protect\setcounter{tocdepth}{1}}}
@@ -67,13 +68,14 @@
 %%
 \newcommand*{\urlprefix}{Available from: }
 \newcommand*{\urldateprefix}{Accessed }
-\bibliographystyle{styling/bathx}
+\bibliographystyle{styling/bath_harvard_reference_styling/bathx}
 % \pagestyle{headings}
 \fussy
 
 \newcommand{\textbfit}[1]{\textbf{\textit{#1}}} % Bold Italics
 
 \newcommand{\pcite}[1]{\citeauthor{#1}'s \citeyearpar{#1}} % Possessive Cite - Smith's (1999)
+\newcommand{\citep}[1]{(\citeauthor{#1} \citeyear{#1})} % Possessive Cite - Smith's (1999)
 \newcommand{\urlcite}[2]{\citeauthor{#1} (\citeyear{#1}, URL extension: #2)} % Cite with URL - Smith (1999, URL extension: /abc) - used if citation is for website, but specific in text reference for particular page
 
 \newcommand{\tempnote}[1]{\textbf{\textit{\textcolor{red}{#1}}}\\}
