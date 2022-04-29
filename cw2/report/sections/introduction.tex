@@ -2,6 +2,9 @@
 % Problem definition
 
 % extracting intent/meaning from a set of words (more strictly sentences)
+The purpose of this report is to evaluate the performance of a Support Vector Machine classifier (using 3 different kernels) and a Boosting based classifier, with regards to their ability to infer the sentiment of a movie review (i.e. is the sentiment of the movie review positive or negative).\\
+The code used is in the provided notebook \verb|Coursework2_final.ipynb|, which can also be found along with the report source files at the URL provided in \autoref{app:src}.
+
 
 \subsection{Data Preprocessing}
 Training data was processed by running each sample through a pre-trained deep sentence embedding model to produce a 384 dimensional dense vector. The embedding model used was \verb|all-MiniLM-L12-v2| \cite{HuggingFace} from the \verb|sentence-transformers| library provided by HuggingFace , this was chosen for its strong listed transfer performance and its relatively small size. However, this model is optimised for sentences of 128 words or less and will truncate sentences that are longer than 512 words. Because many of the reviews in the dataset are longer than 512 words this poses an issue. Experiments were performed using tokenisation and stop word removal to reduce sentence length but this severely worsened the performance of the model. Intuitively this makes sense because the embedding model is trained on natural language and assumes input sentences are grammatical. Instead, any reviews longer than 128 words are split into 128 word long chunks which are embedded individually and averaged together. In order to preserve semantic continuity between chunks they overlap by 15 words. Chunks are weighted by length when averaged to account for reviews which are not a multiple of 128 long. This provided a significant improvement in accuracy, approximately 5\%,  over allowing long reviews to be truncated.
