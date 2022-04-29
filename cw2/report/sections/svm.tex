@@ -7,9 +7,56 @@
 % For example, data that could be classified as being within a circle with radius r, vs outside the circle, can use a 2-D gaussian kernel centred on circle's centre to create a 3'rd dimension with which to separate the data; points closer to the circle's centre / gaussian's mean will be given large values in the 3rd dimension
 % You can then split the data with a 2-D plane within the new 3-D space.
 
-% Our approach
-% Used the sklearn SVM.SVC as the SVM (well tested, robust, easy to setup)
+\subsection{Radial Basis Function}
+% What is this kernel (broadly)
 
-% Tested 3 different kernels: RBF, Poly, Linear
-% first 2 kernels are built-in, the latter was created by ourselves, which effectively applies a weight to each feature, before performing a dot product on the X and Y data
-% Breakdown of the RBF and Poly 
+% Used Built-in implementation
+
+% - Display graphs with hyper-param tuning (gradient based)
+%   - How to for linear?
+%   - possibly do analysis on embedded features to determine best features?
+
+% - Mis-classifications analysis:
+%   - check the original sentences (e.g. sentence length, good & bad words)
+%   - which features common to tp, fp, tn, fn, any sentences that don't correlate
+
+% Correct Predicitons: TP: 744, TN: 719
+% Incorrect Predictions: FP: 12, FN: 25
+%  metrics: {'accuracy': 0.9753333333333334, 'f1_score': 0.9757377049180328, 'sensitivity': 0.9674902470741222, 'false_negative_rate': 0.032509752925877766, 'false_positive_rate': 0.016415868673050615, 'specificity': 0.9835841313269493}
+
+\subsection{Polynomial}
+% What is this kernel (broadly)
+
+% Used Built-in implementation
+
+% - Display graphs with hyper-param tuning (gradient based)
+%   - How to for linear?
+%   - possibly do analysis on embedded features to determine best features?
+
+% - Mis-classifications analysis:
+%   - check the original sentences (e.g. sentence length, good & bad words)
+%   - which features common to tp, fp, tn, fn, any sentences that don't correlate
+
+% Correct Predicitons: TP: 747, TN: 726
+% Incorrect Predictions: FP: 5, FN: 22
+%  metrics: {'accuracy': 0.982, 'f1_score': 0.9822485207100592, 'sensitivity': 0.9713914174252276, 'false_negative_rate': 0.02860858257477243, 'false_positive_rate': 0.006839945280437756, 'specificity': 0.9931600547195623}
+
+\subsection{Linear}
+% What is this kernel (broadly)
+
+% Used own implementation (what was the aim?)
+
+% - Display graphs with hyper-param tuning (gradient based)
+%   - How to for linear?
+%   - possibly do analysis on embedded features to determine best features?
+
+% - Mis-classifications analysis:
+%   - check the original sentences (e.g. sentence length, good & bad words)
+%   - which features common to tp, fp, tn, fn, any sentences that don't correlate
+
+% Correct Predicitons: TP: 663, TN: 637
+% Incorrect Predictions: FP: 94, FN: 106
+%  metrics: {'accuracy': 0.8666666666666667, 'f1_score': 0.8689384010484927, 'sensitivity': 0.8621586475942783, 'false_negative_rate': 0.1378413524057217, 'false_positive_rate': 0.12859097127222982, 'specificity': 0.8714090287277702}
+
+\subsection{Kernel Comparison}
+
