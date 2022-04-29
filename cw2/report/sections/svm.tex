@@ -2,10 +2,11 @@
 % Approach and results with respect to the SVM
 
 % Why?
-% Data is not linearly classify-able, e.g. you can't use a single linear function (a line, plane, cube, hyper-plane, etc (manifold?)) to separate the data.
-% Rather than try to create and optimise a non-linear classification function, we apply a kernel to the input data to extend the dimensionality such that it can be linearly classified.
-% For example, data that could be classified as being within a circle with radius r, vs outside the circle, can use a 2-D gaussian kernel centred on circle's centre to create a 3'rd dimension with which to separate the data; points closer to the circle's centre / gaussian's mean will be given large values in the 3rd dimension
-% You can then split the data with a 2-D plane within the new 3-D space.
+For classification problems, you ideally want the data to be linearly separable, i.e. you can use a single linear function defining a manifold (e.g. line, plane, cube, hyper-plane), from which you can separate the data based on the side it resides upon.\\
+SVMs are used when data is not linearly separable in it's provided state. They work by taking a 'kernel', which transforms the data, extending it's dimensionality, such that it is then linearly separable within the new space.\\
+For example, data that could be classified as being within a circle with radius r (vs outside the circle) can use a 2-D gaussian kernel centred on the circle's centre to create a 3'rd dimension with which to separate the data via a plane; points closer to the circle's centre / gaussian's mean will be given large values in the 3rd dimension.
+
+Below are 3 Kernels that were used for the review sentiment analysis.
 
 \subsection{Radial Basis Function (RBF)}
 % What is this kernel (broadly)
@@ -21,6 +22,10 @@
 %   - which features common to tp, fp, tn, fn, any sentences that don't correlate
 
 %  metrics: {'accuracy': 0.9753333333333334, 'f1_score': 0.9757377049180328, 'sensitivity': 0.9674902470741222, 'false_negative_rate': 0.032509752925877766, 'false_positive_rate': 0.016415868673050615, 'specificity': 0.9835841313269493}
+
+The RBF kernel used was the built-in implementation provided within \verb|sklearn.svm.SVC|.\\
+The hyper-parameters for the RBF kernel model where \verb|C|: the regularisation parameter (L2), \verb|gamma|: a coefficient used by the kernel.\\
+The hyper-parameters were optimised through 5-fold cross-validation, 
 
 \begin{table}[h!]
     \centering
@@ -71,7 +76,16 @@
 
 \subsection{Linear}
 % What is this kernel (broadly)
-
+% Top 3 positively correlated features:
+% 300    0.282470
+% 55     0.253391
+% 5      0.225303
+% Name: y, dtype: float64
+% Top 3 negatively correlated features:
+% 317   -0.285555
+% 180   -0.248269
+% 177   -0.247295
+% Name: y, dtype: float64
 % Used own implementation (what was the aim?)
 
 % - Display graphs with hyper-param tuning (gradient based)
@@ -102,4 +116,5 @@
 \end{table}
 
 \subsection{Kernel Comparison}
+
 
